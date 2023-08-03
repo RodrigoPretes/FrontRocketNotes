@@ -16,4 +16,5 @@ export const Container = styled.button`
     opacity: 0.5;
   }
 
+  cursor: pointer;
 `;
