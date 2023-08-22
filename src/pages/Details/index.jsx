@@ -1,49 +1,98 @@
-import { Container, Links,Content } from "./styles"
+import { Container, Links,Content } from "./styles";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { api } from '../../services/api'
 
-import { Tag } from "../../components/Tag"
-import { Header } from "../../components/Header"
-import { Button } from "../../components/button"
-import { ButtonText } from "../../components/ButtonText"
-import { Section } from "../../components/section"
+import { Tag } from "../../components/Tag";
+import { Header } from "../../components/Header";
+import { Button } from "../../components/button";
+import { ButtonText } from "../../components/ButtonText";
+import { Section } from "../../components/section";
 export function Details(){
+  const [data, setData] = useState(null);
+
+  const params = useParams();
+  const navigate = useNavigate();
+
+  
+
+  function handleBack(){
+    navigate(-1);
+  }
+
+  async function handleRemove(){
+    const confirm = window.confirm("Deseja realmente remover a nota? ");
+
+    if(confirm){
+      await api.delete(`/notes/${params.id}`);
+      navigate(-1);
+    }
+  }
+
+  useEffect(() =>{
+    async function fetchnote(){
+      const response = await api.get(`/notes/${params.id}`);
+      setData(response.data);
+    }
+    fetchnote();
+  }, []);
 
   return (
     <Container>
       <Header />
+      {
+        data && 
       <main>
         <Content>
 
         
-  <ButtonText title="Links úteis" />
+    <ButtonText title="Excluir nota" onClick={handleRemove}/>
 
   <h1>
-    Introdução ao React
+    {data.title}
   </h1>
   <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt a tempora cupiditate mollitia ullam quos sunt fugit. Enim esse, numquam ad ducimus eos, praesentium id ea culpa cum, aspernatur hic?
-    Dolor veniam quibusdam cum explicabo voluptatum nihil assumenda, libero, dignissimos laborum doloremque facere eos ratione optio accusamus nam nemo neque maxime fugiat velit ut quos esse? Laudantium voluptas libero molestiae!
-    Magnam tempora quod vero corrupti repellendus cupiditate error dolorem quo esse distinctio vel accusamus omnis minima ratione maxime cum, vitae, molestias quam voluptates quibusdam quasi rerum sint autem suscipit? Dolorum!
+    {data.description}
   </p>
 
-      <Section title = "Links úteis">
+      { data.links && 
+        <Section title = "Links úteis">
         <Links>
-          <li>
-            <a href="#">https://www.rocketseat.com.br</a>
-          </li>
-          <li>
-            <a href="#">https://www.rocketseat.com.br</a>
-          </li>
+        {
+          data.links.map(link => (
+          <li key={String(link.id)}>
+            <a href={link.url} target="_blank">
+              {link.url}
+
+            </a>
+          </li>  
+
+          ))
+        }
         </Links>
       </Section>
+      }
 
-    <Section title="Marcadores">
-      <Tag title="express"/>
-      <Tag title="nodejs"/>
+    {
+      data.tags && 
+      <Section title="Marcadores">
+       { 
+       data.tags.map( tag =>(
+         <Tag
+         key={String(tag.id)}
+         title={tag.name}
+         />
+
+       ))
+      }
     </Section>
+    }
 
-      <Button title = "Voltar"/>
+      <Button title = "Voltar" onClick={handleBack}/>
       </Content>
       </main>
+
+      }
     </Container>
   )
 }

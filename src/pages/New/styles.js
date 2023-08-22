@@ -22,6 +22,7 @@ export const Container = styled.div`
   `;
 
   export const Form = styled.form`
+    
     max-width: 550px;
     margin: 38px auto;
 
@@ -32,7 +33,7 @@ export const Container = styled.div`
 
       margin-bottom: 36px;
 
-      a{
+      button {
         font-size:20px;
         color: ${({ theme }) => theme.COLORS.GRAY_100};
       }
