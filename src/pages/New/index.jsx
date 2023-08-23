@@ -5,7 +5,7 @@ import { Header } from '../../components/Header';
 import { Input } from '../../components/Input';
 import { Textarea } from '../../components/Textarea';
 import { NoteItem } from '../../components/NoteItem';
-import { Section } from '../../components/Section';
+import { Section } from '../../components/section';
 import { Button } from '../../components/button';
 import { api } from '../../services/api';
 import { ButtonText } from '../../components/ButtonText';
