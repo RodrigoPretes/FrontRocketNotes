@@ -6,7 +6,7 @@ import { Container, Brand, Menu, Search, Content, NewNotes } from './style'
 import { Header } from '../../components/Header'
 import { Input } from '../../components/Input'
 import { Note } from '../../components/Note'
-import { Section } from '../../components/Section'
+import { Section } from '../../components/section'
 
 import { ButtonText } from '../../components/ButtonText'
 import { api } from '../../services/api'
